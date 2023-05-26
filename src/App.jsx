@@ -1,35 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import MainLayout from "./layouts/MainLayout";
+import ContentLayout from "./layouts/ContentLayout";
+import InputTodo from "./modules/InputTodo";
+import ListTodo from "./modules/ListTodo";
+import { useState } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [id, setId] = useState(0);
+  const [todo, setTodo] = useState("");
+  const [isUpdate, setIsUpdate] = useState(false);
+
+  const getTodo = (id, todo) => {
+    setId(id);
+    setTodo(todo);
+    setIsUpdate(true);
+  };
+
+  const updateDone = () => setIsUpdate(false);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <MainLayout>
+      <ContentLayout>
+        <h1 className="text-[#293845] md:text-[29px] text-[23px] font-extrabold">
+          What's the plan for today ?
+        </h1>
+        <section className="flex flex-col w-full md:gap-y-[45px] gap-y-[35px]">
+          <InputTodo
+            id={id}
+            todoUpdate={todo}
+            isUpdate={isUpdate}
+            done={updateDone}
+          />
 
-export default App
+          <ListTodo getTodo={getTodo} />
+        </section>
+      </ContentLayout>
+    </MainLayout>
+  );
+};
+
+export default App;
